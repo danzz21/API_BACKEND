@@ -17,6 +17,7 @@ $routes->options('(:any)', function() {
 $routes->post('api/auth/register', 'Auth::register');
 $routes->post('api/auth/login', 'Auth::login');
 $routes->get('api/auth/me', 'Auth::me');
+$routes->get('api/test/users', 'Test::users');
 
 // Books routes
 $routes->get('api/books', 'Books::index');
@@ -25,9 +26,14 @@ $routes->post('api/books', 'Books::create');
 $routes->put('api/books/(:num)', 'Books::update');
 $routes->delete('api/books/(:num)', 'Books::delete');
 
+// Peminjaman routes
+$routes->get('api/peminjaman', 'Peminjaman::index');
+$routes->get('api/peminjaman/(:num)', 'Peminjaman::show/$1');
+$routes->post('api/peminjaman', 'Peminjaman::create');
+$routes->put('api/peminjaman/(:num)', 'Peminjaman::update/$1');
+        
 // Test route
 $routes->get('api/test', 'Test::index');
-$routes->post('api/test/login', 'Test::testLogin');
 
 // Home route
 $routes->get('/', function() {

@@ -89,6 +89,38 @@ class Auth extends BaseController
     }
 }
 
+public function users()
+{
+    try {
+        $user = $this->validateToken();
+        if (!$user) {
+            return $this->responseJSON([
+                'status' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        // Get all users from database
+        $users = $this->userModel->findAll();
+        
+        // Hapus password dari response untuk security
+        $usersData = array_map(function($user) {
+            unset($user['password']);
+            return $user;
+        }, $users);
+
+        return $this->responseJSON([
+            'status' => true,
+            'data' => $usersData
+        ]);
+
+    } catch (\Exception $e) {
+        return $this->responseJSON([
+            'status' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ], 500);
+    }
+}
    public function login()
 {
     try {

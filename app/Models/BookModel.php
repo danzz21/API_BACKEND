@@ -33,4 +33,24 @@ class BookModel extends Model
             'max_length' => 'Nama penulis maksimal 255 karakter'
         ]
     ];
+    // app/Models/BookModel.php - tambah method
+public function kurangiStok($bookId, $jumlah)
+{
+    $book = $this->find($bookId);
+    if ($book && $book['stok'] >= $jumlah) {
+        $this->set('stok', 'stok - ' . $jumlah, false)
+             ->where('id', $bookId)
+             ->update();
+        return true;
+    }
+    return false;
+}
+
+public function tambahStok($bookId, $jumlah)
+{
+    $this->set('stok', 'stok + ' . $jumlah, false)
+         ->where('id', $bookId)
+         ->update();
+    return true;
+}
 }

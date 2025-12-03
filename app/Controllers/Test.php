@@ -19,4 +19,28 @@ class Test extends BaseController
             ], 500);
         }
     }
+    public function users()
+{
+    try {
+        $userModel = new \App\Models\UserModel();
+        $users = $userModel->findAll();
+        
+        // Hapus password
+        $usersData = array_map(function($user) {
+            unset($user['password']);
+            return $user;
+        }, $users);
+
+        return $this->responseJSON([
+            'status' => true,
+            'data' => $usersData
+        ]);
+
+    } catch (\Exception $e) {
+        return $this->responseJSON([
+            'status' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        ], 500);
+    }
+}
 }
